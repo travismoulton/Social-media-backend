@@ -3,7 +3,9 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-const hpp = require('hpp');
+// const hpp = require('hpp');
+
+const userRouter = require('./routes/userRoutes');
 
 // INIT the app
 const app = express();
@@ -19,5 +21,10 @@ app.use(mongoSanitize());
 
 // Data sanitization against XSS
 app.use(xss());
+
+// This line allows us to receive json in the request body
+app.use(express.json());
+
+app.use('/', userRouter);
 
 module.exports = app;
