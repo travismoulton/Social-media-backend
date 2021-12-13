@@ -23,6 +23,7 @@ app.use(mongoSanitize());
 app.use(xss());
 
 // This line allows us to receive json in the request body
+// **IMPORTANT** //
 app.use(express.json());
 
 app.use('/', userRouter);
