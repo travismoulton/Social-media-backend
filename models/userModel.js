@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+// const crypto = require('crypto');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
@@ -60,6 +60,7 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(givenPassword, userPassword);
 };
 
+// Method to check if a user password has been changed a JWT was created
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(

@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+// const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
@@ -72,10 +72,12 @@ exports.logout = (req, res) => {
 exports.protect = catchAsync(async (req, res, next) => {
   // 1: Get token and check if it's there
 
+  console.log(req.headers.authorization);
+
   const isBearerToken =
     req.headers.authorization && req.headers.authorization.startsWith('Bearer');
 
-  const tokenIsInCookie = !!req.cookies.jwt;
+  const tokenIsInCookie = req.cookies && !!req.cookies.jwt;
 
   // eslint-disable-next-line no-nested-ternary
   const token = isBearerToken

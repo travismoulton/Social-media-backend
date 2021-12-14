@@ -1,14 +1,14 @@
 const catchAsync = require('../utils/catchAsync');
-
+const AppError = require('../utils/appError');
 const User = require('../models/userModel');
 
-// exports.createUser = catchAsync(async (req, res, next) => {
-//   const user = await User.create(req.body);
+exports.getUser = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
 
-//   res.status(201).json({
-//     status: 'success',
-//     data: {
-//       user,
-//     },
-//   });
-// });
+  if (!user) return next(new AppError('No user exists with that id', 401));
+
+  res.status(201).json({
+    status: 'success',
+    data: { user },
+  });
+});
