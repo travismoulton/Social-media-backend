@@ -18,3 +18,7 @@ const threadSchema = new mongoose.Schema({
   // Like / Dislike score -> some sort of aggergation
   // Contributors -> Not sure if needed yet.
 });
+
+const Thread = mongoose.model('Thread', threadSchema);
+
+module.exports = Thread;
