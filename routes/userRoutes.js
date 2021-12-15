@@ -10,4 +10,6 @@ router.get('/user/:id', authController.protect, userController.getUser);
 
 router.get('/logout', authController.logout);
 
+router.get('/login', authController.login);
+
 module.exports = router;
