@@ -12,7 +12,7 @@ const threadSchema = new mongoose.Schema(
     },
     group: {
       type: mongoose.Schema.ObjectId,
-      rerf: 'Group',
+      ref: 'Group',
     },
     // Posts => Virtual populate
     // Post count -> Siome sort of aggregation
