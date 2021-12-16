@@ -9,8 +9,8 @@ exports.createGroup = catchAsync(async (req, res, next) => {
   const group = await Group.create({ ...req.body, createdBy: req.user._id });
 
   // Create a membership for the foudning user
-  const user = await User.findById(req.user);
-  user.addGroupMembership(group._id);
+  const foundingUser = await User.findById(req.user);
+  foundingUser.addGroupMembership(group._id);
 
   res.status(201).json({
     status: 'sucess',
