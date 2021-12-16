@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema(
       default: Date.now(),
     },
     passwordChangedAt: Date,
+    groupMemberships: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Group',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -50,7 +56,7 @@ userSchema.pre('save', async function (next) {
 userSchema.pre('save', function (next) {
   // Only run the function when a user updates their password,
   // Not when a new user is created
-  if (this.isModified('password') || this.isNew) return next();
+  if (!this.isModified('password') || this.isNew) return next();
 
   // The database save is slower than creating the web token, so we adjust
   // passwordChangeAt by 1 second so that the date is before the json
@@ -78,6 +84,23 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   }
 
   return false;
+};
+
+userSchema.methods.addGroupMembership = async function (groupId) {
+  this.groupMemberships.push(groupId);
+  await this.save();
+};
+
+userSchema.methods.removeGroupMembership = async function (groupId) {
+  const groupIndex = this.groupMemberships.indexOf(groupId);
+
+  // Chreate a new array without the groupId we are removing
+  const newMembershipArr = this.groupMemberships
+    .splice(0, groupIndex)
+    .concat(this.groupMemberships.splice(groupIndex + 1));
+
+  this.groupMemberships = newMembershipArr;
+  await this.save();
 };
 
 const User = mongoose.model('User', userSchema);
