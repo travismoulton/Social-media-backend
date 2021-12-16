@@ -17,6 +17,10 @@ const groupSchema = new mongoose.Schema(
       type: String,
       default: 'defaultAvatar.jpg',
     },
+    createdBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
   },
   {
     toJSON: { virtuals: true },
