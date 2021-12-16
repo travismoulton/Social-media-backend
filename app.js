@@ -6,6 +6,7 @@ const xss = require('xss-clean');
 // const hpp = require('hpp');
 
 const userRouter = require('./routes/userRoutes');
+const groupRouter = require('./routes/groupRoutes');
 
 // INIT the app
 const app = express();
@@ -26,6 +27,7 @@ app.use(xss());
 // **IMPORTANT** //
 app.use(express.json());
 
-app.use('/', userRouter);
+app.use('/user', userRouter);
+app.use('/group', groupRouter);
 
 module.exports = app;

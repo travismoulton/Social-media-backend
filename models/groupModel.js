@@ -16,6 +16,10 @@ const groupSchema = new mongoose.Schema({
     type: String,
     default: 'defaultAvatar.jpg',
   },
+  createdBy: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+  },
 });
 
 const Group = mongoose.model('Group', groupSchema);
