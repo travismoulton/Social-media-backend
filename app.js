@@ -9,6 +9,7 @@ const userRouter = require('./routes/userRoutes');
 const groupRouter = require('./routes/groupRoutes');
 const membershipRouter = require('./routes/membershipRoute');
 const threadRouter = require('./routes/threadRoutes');
+const postRouter = require('./routes/postRoutes');
 
 // INIT the app
 const app = express();
@@ -33,5 +34,6 @@ app.use('/user', userRouter);
 app.use('/group', groupRouter);
 app.use('/membership', membershipRouter);
 app.use('/threads', threadRouter);
+app.use('/posts', postRouter);
 
 module.exports = app;

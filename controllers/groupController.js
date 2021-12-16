@@ -6,7 +6,7 @@ const catchAsync = require('../utils/catchAsync');
 
 exports.createGroup = catchAsync(async (req, res, next) => {
   console.log(req.user);
-  const group = await Group.create({ ...req.body, createdBy: req.user._id });
+  const group = await Group.create({ ...req.body, createdBy: req.user });
 
   // Create a membership for the foudning user
   const foundingUser = await User.findById(req.user);

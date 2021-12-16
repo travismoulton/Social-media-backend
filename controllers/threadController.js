@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const Thread = require('../models/threadModel');
 
 exports.createThread = catchAsync(async (req, res, next) => {
-  const thread = await Thread.create({ ...req.body, author: req.user._id });
+  const thread = await Thread.create({ ...req.body, author: req.user });
 
   res.status(201).json({
     status: 'sucess',
