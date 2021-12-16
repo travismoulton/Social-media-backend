@@ -12,4 +12,8 @@ exports.createThread = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getThread = factory.getOne(Thread, 'thread', { path: 'posts' });
+exports.getThread = factory.getOne(Thread, 'thread', {
+  path: 'posts',
+  // Deep populate the replies from each post
+  populate: { path: 'replies' },
+});
