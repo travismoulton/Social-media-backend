@@ -1,12 +1,6 @@
 const Group = require('../models/groupModel');
-const AppError = require('../utils/appError');
-const catchAsync = require('../utils/catchAsync');
+// const AppError = require('../utils/appError');
+// const catchAsync = require('../utils/catchAsync');
+const factory = require('./handlerFactory');
 
-exports.createGroup = catchAsync(async (req, res, next) => {
-  const group = await Group.create(req.body);
-
-  res.status(201).json({
-    status: 'success',
-    data: { group },
-  });
-});
+exports.createGroup = factory.createOne(Group, 'Group');

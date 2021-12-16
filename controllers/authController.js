@@ -72,8 +72,6 @@ exports.logout = (req, res) => {
 exports.protect = catchAsync(async (req, res, next) => {
   // 1: Get token and check if it's there
 
-  console.log(req.headers.authorization);
-
   const isBearerToken =
     req.headers.authorization && req.headers.authorization.startsWith('Bearer');
 
@@ -93,8 +91,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // 2) Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
-  console.log(decoded, 'decoded');
 
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
