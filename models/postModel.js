@@ -53,6 +53,12 @@ const postSchema = new mongoose.Schema(
   }
 );
 
+postSchema.virtual('replies', {
+  ref: 'Post',
+  foreignField: 'parentPost',
+  localField: '_id',
+});
+
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;

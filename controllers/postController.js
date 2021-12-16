@@ -1,5 +1,6 @@
 const Post = require('../models/postModel');
 const catchAsync = require('../utils/catchAsync');
+const factory = require('./handlerFactory');
 
 exports.createPost = catchAsync(async (req, res, next) => {
   const post = await Post.create({ ...req.body, author: req.user });
@@ -9,3 +10,5 @@ exports.createPost = catchAsync(async (req, res, next) => {
     data: { post },
   });
 });
+
+exports.getPost = factory.getOne(Post, 'post', { path: 'replies' });
