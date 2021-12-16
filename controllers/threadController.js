@@ -1,6 +1,7 @@
 const catchAsync = require('../utils/catchAsync');
 // const AppError = require('../utils/appError');
 const Thread = require('../models/threadModel');
+const factory = require('./handlerFactory');
 
 exports.createThread = catchAsync(async (req, res, next) => {
   const thread = await Thread.create({ ...req.body, author: req.user });
@@ -10,3 +11,5 @@ exports.createThread = catchAsync(async (req, res, next) => {
     data: { thread },
   });
 });
+
+exports.getThread = factory.getOne(Thread, 'thread', { path: 'posts' });

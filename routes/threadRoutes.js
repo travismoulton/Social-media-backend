@@ -8,4 +8,6 @@ const router = express.Router();
 
 router.route('/').post(protect, threadContoller.createThread);
 
+router.route('/:id').get(protect, threadContoller.getThread);
+
 module.exports = router;

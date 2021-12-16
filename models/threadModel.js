@@ -25,6 +25,12 @@ const threadSchema = new mongoose.Schema(
   }
 );
 
+threadSchema.virtual('posts', {
+  ref: 'Post',
+  foreignField: 'thread',
+  localField: '_id',
+});
+
 const Thread = mongoose.model('Thread', threadSchema);
 
 module.exports = Thread;
