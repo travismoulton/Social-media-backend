@@ -3,34 +3,40 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const validator = require('validator');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'A user must have a name'],
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'A user must have a name'],
+    },
+    email: {
+      type: String,
+      unique: true,
+      lowercase: true,
+      required: [true, 'Please provide an email'],
+      validate: [validator.isEmail, 'Please provide a valid email'],
+    },
+    photo: {
+      type: String,
+      default: 'default.jpg',
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide a password'],
+      minlength: 8,
+      select: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    passwordChangedAt: Date,
   },
-  email: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    required: [true, 'Please provide an email'],
-    validate: [validator.isEmail, 'Please provide a valid email'],
-  },
-  photo: {
-    type: String,
-    default: 'default.jpg',
-  },
-  password: {
-    type: String,
-    required: [true, 'Please provide a password'],
-    minlength: 8,
-    select: false,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now(),
-  },
-  passwordChangedAt: Date,
-});
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 // Hash password upon user creation and password update
 userSchema.pre('save', async function (next) {
