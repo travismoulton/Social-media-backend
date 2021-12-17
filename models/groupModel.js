@@ -28,6 +28,12 @@ const groupSchema = new mongoose.Schema(
   }
 );
 
+groupSchema.virtual('threads', {
+  ref: 'Thread',
+  foreignField: 'group',
+  localField: '_id',
+});
+
 const Group = mongoose.model('Group', groupSchema);
 
 module.exports = Group;

@@ -8,4 +8,6 @@ const router = express.Router();
 
 router.route('/').post(protect, groupController.createGroup);
 
+router.route('/:id').get(protect, groupController.getGroup);
+
 module.exports = router;

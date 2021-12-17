@@ -6,7 +6,7 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A post can not be empty'],
     },
-    // Is this correct? Going for parent reference
+
     thread: {
       type: mongoose.Schema.ObjectId,
       ref: 'Thread',
@@ -34,7 +34,6 @@ const postSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    // Need something to capture what post it is a reply to. Can a document reference it's own schema
     parentPost: {
       type: mongoose.Schema.ObjectId,
       ref: 'Post',
@@ -45,6 +44,11 @@ const postSchema = new mongoose.Schema(
     },
     lastEditedAt: {
       type: Date,
+    },
+    // For sorting purposes when populating threads. Want this to stay at the top regardless of like score
+    isInitialPost: {
+      type: Boolean,
+      default: false,
     },
   },
   {

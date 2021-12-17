@@ -2,10 +2,9 @@ const Group = require('../models/groupModel');
 const User = require('../models/userModel');
 // const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
-// const factory = require('./handlerFactory');
+const factory = require('./handlerFactory');
 
 exports.createGroup = catchAsync(async (req, res, next) => {
-  console.log(req.user);
   const group = await Group.create({ ...req.body, createdBy: req.user });
 
   // Create a membership for the foudning user
@@ -17,3 +16,5 @@ exports.createGroup = catchAsync(async (req, res, next) => {
     data: { group },
   });
 });
+
+exports.getGroup = factory.getOne(Group, 'Group', { path: 'threads' });
