@@ -14,7 +14,6 @@ const threadSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'Group',
     },
-    // Posts => Virtual populate
     // Post count -> Siome sort of aggregation
     // Like / Dislike score -> some sort of aggergation
     // Contributors -> Not sure if needed yet.
