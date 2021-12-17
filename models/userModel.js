@@ -44,6 +44,18 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+userSchema.virtual('posts', {
+  ref: 'Post',
+  foreignField: 'author',
+  localField: '_id',
+});
+
+userSchema.virtual('createdThreads', {
+  ref: 'Thread',
+  foreignField: 'author',
+  localField: '_id',
+});
+
 // Hash password upon user creation and password update
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
