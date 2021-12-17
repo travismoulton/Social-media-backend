@@ -29,3 +29,38 @@ exports.getOne = (Model, modelName, popOptions) =>
       data: { [modelName]: doc },
     });
   });
+
+exports.updateOne = (Model, modelName, fields) =>
+  catchAsync(async (req, res, next) => {
+    function extractUpdateFields() {
+      const fieldsToUpdate = { ...req.body };
+
+      fieldsToUpdate.keys().forEach((key) => {
+        if (!fields.includes(key)) delete fieldsToUpdate[key];
+      });
+
+      return fieldsToUpdate;
+    }
+
+    const updateObj = fields ? extractUpdateFields() : { ...req.body };
+    const doc = await Model.findByIdAndUpdate(req.params.id, updateObj, {
+      // These options are important!
+      // new makes sure that it returns the updated document
+      // runValidators makes sure that it checks the data you send against the validation in the model
+      new: true,
+      runValidators: true,
+    });
+
+    if (!doc)
+      return next(
+        new AppError(
+          `No ${modelName} with that Id, please try again with a different id`,
+          404
+        )
+      );
+
+    res.status(200).json({
+      status: 'success',
+      data: { [modelName]: doc },
+    });
+  });
