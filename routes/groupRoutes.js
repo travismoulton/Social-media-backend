@@ -8,6 +8,9 @@ const router = express.Router();
 
 router.route('/').post(protect, groupController.createGroup);
 
-router.route('/:id').get(protect, groupController.getGroup);
+router
+  .route('/:id')
+  .get(protect, groupController.getGroup)
+  .patch(protect, groupController.updateGroup);
 
 module.exports = router;

@@ -35,7 +35,7 @@ exports.updateOne = (Model, modelName, fields) =>
     function extractUpdateFields() {
       const fieldsToUpdate = { ...req.body };
 
-      fieldsToUpdate.keys().forEach((key) => {
+      Object.keys(fieldsToUpdate).forEach((key) => {
         if (!fields.includes(key)) delete fieldsToUpdate[key];
       });
 
@@ -43,10 +43,8 @@ exports.updateOne = (Model, modelName, fields) =>
     }
 
     const updateObj = fields ? extractUpdateFields() : { ...req.body };
+
     const doc = await Model.findByIdAndUpdate(req.params.id, updateObj, {
-      // These options are important!
-      // new makes sure that it returns the updated document
-      // runValidators makes sure that it checks the data you send against the validation in the model
       new: true,
       runValidators: true,
     });

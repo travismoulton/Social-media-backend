@@ -18,3 +18,5 @@ exports.createGroup = catchAsync(async (req, res, next) => {
 });
 
 exports.getGroup = factory.getOne(Group, 'Group', { path: 'threads' });
+
+exports.updateGroup = factory.updateOne(Group, 'Group', ['avatar', 'name']);

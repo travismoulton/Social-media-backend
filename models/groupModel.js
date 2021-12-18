@@ -8,7 +8,6 @@ const groupSchema = new mongoose.Schema(
       unique: true,
     },
     // members -> TBD
-    // Threads -> TBD
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -31,6 +30,14 @@ const groupSchema = new mongoose.Schema(
 groupSchema.virtual('threads', {
   ref: 'Thread',
   foreignField: 'group',
+  localField: '_id',
+});
+
+// This may not be necesarry. Does it make more sense to query the
+// user model for memberships with this groupId?
+groupSchema.virtual('members', {
+  ref: 'User',
+  foreignField: 'groupMemberships',
   localField: '_id',
 });
 
