@@ -14,17 +14,6 @@ const postSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
-    // Will need a way to track what user liked a post. Does like and dislike needs it's own schema?
-    // likes: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
-    // dislikes: {
-    //   type: Number,
-    //   min: 0,
-    //   default: 0,
-    // },
     likeCount: {
       type: Number,
       default: 0,
