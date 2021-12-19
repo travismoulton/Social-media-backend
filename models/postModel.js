@@ -6,7 +6,6 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A post can not be empty'],
     },
-
     thread: {
       type: mongoose.Schema.ObjectId,
       ref: 'Thread',
@@ -26,6 +25,28 @@ const postSchema = new mongoose.Schema(
     //   min: 0,
     //   default: 0,
     // },
+    likeCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    usersLiked: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
+    dislikeCount: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+    usersDisliked: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now(),
