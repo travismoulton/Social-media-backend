@@ -2,6 +2,8 @@ const Post = require('../models/postModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+const options = { new: true, runValidators: true };
+
 exports.addLike = catchAsync(async (req, res, next) => {
   const postId = req.params.id;
   const userId = req.user._id;
@@ -19,7 +21,8 @@ exports.addLike = catchAsync(async (req, res, next) => {
       $inc: { likeCount: 1, dislikeCount: -1 },
       $push: { usersLiked: userId },
       $pull: { usersDisliked: userId },
-    }
+    },
+    { ...options }
   );
 
   const neutralPost = await Post.findOneAndUpdate(
@@ -30,7 +33,8 @@ exports.addLike = catchAsync(async (req, res, next) => {
     {
       $inc: { likeCount: 1 },
       $push: { usersLiked: userId },
-    }
+    },
+    { ...options }
   );
 
   if (!neutralPost && !dislikedPost)
@@ -58,7 +62,8 @@ exports.addDislike = catchAsync(async (req, res, next) => {
       $inc: { likeCount: -1, dislikeCount: 1 },
       $pull: { usersLiked: userId },
       $push: { usersDisliked: userId },
-    }
+    },
+    { ...options }
   );
 
   const neutralPost = await Post.findOneAndUpdate(
@@ -69,7 +74,8 @@ exports.addDislike = catchAsync(async (req, res, next) => {
     {
       $inc: { likeCount: 1 },
       $push: { usersDisliked: userId },
-    }
+    },
+    { ...options }
   );
 
   if (!neutralPost && !likedPost)
