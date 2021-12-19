@@ -72,16 +72,70 @@ exports.addDislike = catchAsync(async (req, res, next) => {
       usersDisliked: { $ne: userId },
     },
     {
-      $inc: { likeCount: 1 },
+      $inc: { dislikeCount: 1 },
       $push: { usersDisliked: userId },
     },
     { ...options }
   );
 
   if (!neutralPost && !likedPost)
-    return next(new AppError('This user has already disliked this post', 404));
+    return next(new AppError('This user has already disliked this post', 400));
 
   const data = neutralPost ? { neutralPost } : { likedPost };
 
   res.status(200).json({ status: 'success', data });
+});
+
+exports.removeLike = catchAsync(async (req, res, next) => {
+  const postId = req.params.id;
+  const userId = req.user._id;
+
+  if (!(await Post.findById(postId)))
+    return next(new AppError('No post with that Id exists', 404));
+
+  const post = await Post.findOneAndUpdate(
+    {
+      _id: postId,
+      usersLiked: { $eq: userId },
+    },
+    {
+      $inc: { likeCount: -1 },
+      $pull: { usersLiked: userId },
+    },
+    { ...options }
+  );
+
+  if (!post)
+    return next(
+      new AppError('This user does not currently like this post', 400)
+    );
+
+  res.status(200).json({ status: 'success', data: { post } });
+});
+
+exports.removeDislike = catchAsync(async (req, res, next) => {
+  const postId = req.params.id;
+  const userId = req.user._id;
+
+  if (!(await Post.findById(postId)))
+    return next(new AppError('No post with that Id exists', 404));
+
+  const post = await Post.findOneAndUpdate(
+    {
+      _id: postId,
+      usersDisliked: { $eq: userId },
+    },
+    {
+      $inc: { dislikeCount: -1 },
+      $pull: { usersDisliked: userId },
+    },
+    { ...options }
+  );
+
+  if (!post)
+    return next(
+      new AppError('This user does not currently dislike this post', 400)
+    );
+
+  res.status(200).json({ status: 'success', data: { post } });
 });

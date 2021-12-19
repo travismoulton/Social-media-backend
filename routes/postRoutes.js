@@ -11,7 +11,11 @@ router.route('/').post(protect, postController.createPost);
 
 router.route('/:id').get(protect, postController.getPost);
 
-router.route('/:id/like').post(protect, likesController.addLike);
-router.route('/:id/dislike').post(protect, likesController.addDislike);
+router.route('/:id/like/add').patch(protect, likesController.addLike);
+router.route('/:id/dislike/add').patch(protect, likesController.addDislike);
+router.route('/:id/like/remove').patch(protect, likesController.removeLike);
+router
+  .route('/:id/dislike/remove')
+  .patch(protect, likesController.removeDislike);
 
 module.exports = router;
