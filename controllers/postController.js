@@ -1,6 +1,6 @@
 const Post = require('../models/postModel');
 const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
+// const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
 
 exports.createPost = catchAsync(async (req, res, next) => {
@@ -23,10 +23,4 @@ exports.createPost = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.getPost = factory.getOne(Post, 'post');
-
-exports.getPost = catchAsync(async (req, res, next) => {
-  const post = await Post.findById(req.params.id);
-
-  res.status(200).json({ status: 'success', data: post });
-});
+exports.getPost = factory.getOne(Post, 'post', null, { skipMiddleware: true });

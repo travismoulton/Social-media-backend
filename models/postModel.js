@@ -81,8 +81,8 @@ const postSchema = new mongoose.Schema(
 
 // Will be run when a thread is fetched for display
 postSchema.pre(/^find/, function (next) {
-  const { skipMiddlware } = this.getOptions();
-  if (skipMiddlware) return next();
+  const { skipMiddleware } = this.getOptions();
+  if (skipMiddleware) return next();
 
   this.populate('replies');
   next();

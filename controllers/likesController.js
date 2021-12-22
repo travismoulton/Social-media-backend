@@ -10,7 +10,7 @@ async function caluclateReplyChainLikeSCore(postId) {
   ]);
 }
 
-const options = { new: true, runValidators: true };
+const options = { new: true, runValidators: true, skipMiddleware: true };
 
 exports.addLike = catchAsync(async (req, res, next) => {
   const postId = req.params.id;

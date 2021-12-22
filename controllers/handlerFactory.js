@@ -11,11 +11,13 @@ exports.createOne = (Model, modelName) =>
     });
   });
 
-exports.getOne = (Model, modelName, popOptions) =>
+exports.getOne = (Model, modelName, popOptions, queryOptions) =>
   catchAsync(async (req, res, next) => {
     const query = popOptions
-      ? Model.findById(req.params.id).populate(popOptions)
-      : Model.findById(req.params.id);
+      ? Model.findById(req.params.id, null, { ...queryOptions }).populate(
+          popOptions
+        )
+      : Model.findById(req.params.id, null, { ...queryOptions });
 
     const doc = await query;
 
