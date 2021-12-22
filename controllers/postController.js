@@ -10,7 +10,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
     const parentId = post.parentPost.toString();
     const parentPost = await Post.findById(parentId);
 
-    parentPost.children.push(post._id);
+    parentPost.replies.push(post._id);
 
     parentPost.save();
   }
