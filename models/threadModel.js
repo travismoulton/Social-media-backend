@@ -28,14 +28,12 @@ const threadSchema = new mongoose.Schema(
   }
 );
 
+// Not sure whether to put this in. It will query the entire reply chain every time, which
+// isn't ideal.
 // threadSchema.pre(/^find/, function (next) {
 //   this.populate({ path: 'initialPost' });
 //   next();
 // });
-
-threadSchema.methods.displayPosts = async function () {
-  await this.populate({ path: 'initialPost' });
-};
 
 const Thread = mongoose.model('Thread', threadSchema);
 

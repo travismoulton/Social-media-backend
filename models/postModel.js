@@ -69,17 +69,9 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-function autoPopulate(next) {
+postSchema.pre(/^find/, function (next) {
   this.populate('children');
   next();
-}
-
-postSchema.pre(/^find/, autoPopulate);
-
-postSchema.virtual('replies', {
-  ref: 'Post',
-  foreignField: 'parentPost',
-  localField: '_id',
 });
 
 const Post = mongoose.model('Post', postSchema);
