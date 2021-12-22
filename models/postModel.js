@@ -40,7 +40,7 @@ const postSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
-    children: [
+    replies: [
       {
         type: mongoose.Schema.ObjectId,
         ref: 'Post',
@@ -70,7 +70,7 @@ const postSchema = new mongoose.Schema(
 );
 
 postSchema.pre(/^find/, function (next) {
-  this.populate('children');
+  this.populate('replies');
   next();
 });
 
