@@ -23,4 +23,4 @@ exports.createPost = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getPost = factory.getOne(Post, 'post', null, { skipMiddleware: true });
+exports.getPost = factory.getOne(Post, 'post');

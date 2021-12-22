@@ -14,26 +14,19 @@ exports.createThread = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.getThread = factory.getOne(Thread, 'thread', {
-//   path: 'posts',
-//   // Deep populate the replies from each post
-//   populate: { path: 'replies' },
-// });
-
 // exports.getThread = factory.getOne(Thread, 'thread');
 
 exports.editThread = factory.updateOne(Thread, 'thread');
 
-// This controller is specifically disgned to get posts. if it turns out
-// that we will always need to get all posts, then we can put in the query middleware
-// in the thread model and use the factory handler
 exports.getThread = catchAsync(async (req, res, next) => {
   const thread = await Thread.findById(req.params.id);
 
   if (!thread)
     return next(new AppError('There is no thread with that id', 400));
 
-  const initialPost = await Post.findById(thread.initialPost.toString());
+  const initialPost = await Post.findById(thread.initialPost.toString(), null, {
+    shouldFetchReplies: true,
+  });
 
   res.status(200).json({ status: 'success', data: { thread, initialPost } });
 });

@@ -81,10 +81,10 @@ const postSchema = new mongoose.Schema(
 
 // Will be run when a thread is fetched for display
 postSchema.pre(/^find/, function (next) {
-  const { skipMiddleware } = this.getOptions();
-  if (skipMiddleware) return next();
+  const { shouldFetchReplies } = this.getOptions();
+  if (!shouldFetchReplies) return next();
 
-  this.populate('replies');
+  this.populate({ path: 'replies', options: { shouldFetchReplies: true } });
   next();
 });
 
