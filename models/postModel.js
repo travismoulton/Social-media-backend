@@ -50,6 +50,11 @@ const postSchema = new mongoose.Schema(
         ref: 'Post',
       },
     ],
+    replyLevel: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
     parentPost: {
       type: mongoose.Schema.ObjectId,
       ref: 'Post',
@@ -73,24 +78,17 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-// postSchema.pre('save', async function (next) {
-//   if (!this.isNew) return next();
-
-//   // How do I run this query
-//   const parentId = this.parentPost;
-
-//   const parentPost = Post.findById(parentId);
-
-//   this.ancestors = [this.parentPost, ...parentPost.ancestors];
-
-//   return next();
-// });
-
 // postSchema.virtual('replies', {
 //   ref: 'Post',
 //   foreignField: 'parentPost',
 //   localField: '_id',
 // });
+
+postSchema.virtual('replies', {
+  ref: 'Post',
+  foreignField: 'parentPost',
+  localField: '_id',
+});
 
 const Post = mongoose.model('Post', postSchema);
 

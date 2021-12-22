@@ -24,6 +24,8 @@ exports.getOne = (Model, modelName, popOptions) =>
         new AppError(`No ${modelName} could be found with that id`, 404)
       );
 
+    console.log(doc);
+
     res.status(200).json({
       status: 'success',
       data: { [modelName]: doc },

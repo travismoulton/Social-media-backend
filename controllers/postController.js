@@ -11,7 +11,8 @@ exports.createPost = catchAsync(async (req, res, next) => {
 
     const parentPost = await Post.findById(parentId);
 
-    post.ancestors = [parentPost.id, ...parentPost.ancestors];
+    post.ancestors = [parentId, ...parentPost.ancestors];
+    post.replyLevel = post.ancestors.length;
 
     await post.save();
   }

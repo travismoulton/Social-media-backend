@@ -32,7 +32,6 @@ threadSchema.virtual('posts', {
   ref: 'Post',
   foreignField: 'thread',
   localField: '_id',
-  match: { isReply: false },
 });
 
 const Thread = mongoose.model('Thread', threadSchema);
