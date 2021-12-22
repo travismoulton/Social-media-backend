@@ -95,11 +95,6 @@ postSchema.pre(/^find/, function (next) {
   next();
 });
 
-postSchema.methods.removeReplies = function () {
-  this.replies = [];
-  return this;
-};
-
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;
