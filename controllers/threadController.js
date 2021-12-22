@@ -1,5 +1,4 @@
 const catchAsync = require('../utils/catchAsync');
-// const AppError = require('../utils/appError');
 const Thread = require('../models/threadModel');
 const Post = require('../models/postModel');
 const factory = require('./handlerFactory');
