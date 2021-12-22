@@ -21,4 +21,10 @@ exports.createPost = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getPost = factory.getOne(Post, 'post');
+// exports.getPost = factory.getOne(Post, 'post');
+
+exports.getPost = catchAsync(async (req, res, next) => {
+  const post = await Post.findById(req.params.id);
+
+  res.status(200).json({ status: 'success', data: post });
+});

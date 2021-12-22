@@ -18,7 +18,7 @@ exports.addLike = catchAsync(async (req, res, next) => {
       usersDisliked: { $eq: userId },
     },
     {
-      $inc: { likeCount: 1, dislikeCount: -1 },
+      $inc: { likeCount: 1, dislikeCount: -1, likeScore: 1 },
       $push: { usersLiked: userId },
       $pull: { usersDisliked: userId },
     },
@@ -31,7 +31,7 @@ exports.addLike = catchAsync(async (req, res, next) => {
       usersLiked: { $ne: userId },
     },
     {
-      $inc: { likeCount: 1 },
+      $inc: { likeCount: 1, likeScore: 1 },
       $push: { usersLiked: userId },
     },
     { ...options }
@@ -59,7 +59,7 @@ exports.addDislike = catchAsync(async (req, res, next) => {
       usersDisliked: { $ne: userId },
     },
     {
-      $inc: { likeCount: -1, dislikeCount: 1 },
+      $inc: { likeCount: -1, dislikeCount: 1, likeScore: -1 },
       $pull: { usersLiked: userId },
       $push: { usersDisliked: userId },
     },
@@ -72,7 +72,7 @@ exports.addDislike = catchAsync(async (req, res, next) => {
       usersDisliked: { $ne: userId },
     },
     {
-      $inc: { dislikeCount: 1 },
+      $inc: { dislikeCount: 1, likeScore: -1 },
       $push: { usersDisliked: userId },
     },
     { ...options }
@@ -99,7 +99,7 @@ exports.removeLike = catchAsync(async (req, res, next) => {
       usersLiked: { $eq: userId },
     },
     {
-      $inc: { likeCount: -1 },
+      $inc: { likeCount: -1, likeScore: -1 },
       $pull: { usersLiked: userId },
     },
     { ...options }
@@ -126,7 +126,7 @@ exports.removeDislike = catchAsync(async (req, res, next) => {
       usersDisliked: { $eq: userId },
     },
     {
-      $inc: { dislikeCount: -1 },
+      $inc: { dislikeCount: -1, likeScore: 1 },
       $pull: { usersDisliked: userId },
     },
     { ...options }

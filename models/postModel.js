@@ -36,6 +36,10 @@ const postSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    likeScore: {
+      type: Number,
+      default: 0,
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -70,9 +74,19 @@ const postSchema = new mongoose.Schema(
 );
 
 postSchema.pre(/^find/, function (next) {
+  const { runGetAllReplies } = this.getOptions();
+
+  if (!runGetAllReplies) return next();
+
   this.populate('replies');
+
   next();
 });
+
+postSchema.methods.removeReplies = function () {
+  this.replies = [];
+  return this;
+};
 
 const Post = mongoose.model('Post', postSchema);
 
