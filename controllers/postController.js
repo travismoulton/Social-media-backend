@@ -11,8 +11,10 @@ exports.createPost = catchAsync(async (req, res, next) => {
     const parentPost = await Post.findById(parentId);
 
     parentPost.replies.push(post._id);
+    post.ancestors = [parentId, ...parentPost.ancestors];
 
-    parentPost.save();
+    await parentPost.save();
+    await post.save();
   }
 
   res.status(201).json({

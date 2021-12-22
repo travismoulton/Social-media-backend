@@ -33,10 +33,7 @@ exports.getThread = catchAsync(async (req, res, next) => {
   if (!thread)
     return next(new AppError('There is no thread with that id', 400));
 
-  const intialPostId = thread.initialPost.toString();
-  const initialPost = await Post.findById(intialPostId, null, {
-    runGetAllReplies: true,
-  });
+  const initialPost = await Post.findById(thread.initialPost.toString());
 
   res.status(200).json({ status: 'success', data: { thread, initialPost } });
 });

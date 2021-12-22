@@ -2,6 +2,14 @@ const Post = require('../models/postModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+async function caluclateReplyChainLikeSCore(postId) {
+  const score = await Post.aggregate([
+    {
+      $match: {},
+    },
+  ]);
+}
+
 const options = { new: true, runValidators: true };
 
 exports.addLike = catchAsync(async (req, res, next) => {

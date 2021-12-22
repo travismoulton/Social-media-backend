@@ -50,6 +50,12 @@ const postSchema = new mongoose.Schema(
         ref: 'Post',
       },
     ],
+    ancestors: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Post',
+      },
+    ],
     parentPost: {
       type: mongoose.Schema.ObjectId,
       ref: 'Post',
@@ -73,13 +79,12 @@ const postSchema = new mongoose.Schema(
   }
 );
 
+// Will be run when a thread is fetched for display
 postSchema.pre(/^find/, function (next) {
-  const { runGetAllReplies } = this.getOptions();
-
-  if (!runGetAllReplies) return next();
+  const { skipMiddlware } = this.getOptions();
+  if (skipMiddlware) return next();
 
   this.populate('replies');
-
   next();
 });
 
