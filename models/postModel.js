@@ -88,7 +88,10 @@ postSchema.pre(/^find/, function (next) {
   const { shouldFetchReplies } = this.getOptions();
   if (!shouldFetchReplies) return next();
 
-  this.populate({ path: 'replies', options: { shouldFetchReplies: true } });
+  this.populate({
+    path: 'replies',
+    options: { shouldFetchReplies: true, sort: [{ replyChainScore: 'desc' }] },
+  });
   next();
 });
 
