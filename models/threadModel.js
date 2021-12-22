@@ -28,12 +28,14 @@ const threadSchema = new mongoose.Schema(
   }
 );
 
-threadSchema.virtual('posts', {
-  ref: 'Post',
-  foreignField: 'thread',
-  localField: '_id',
-  match: { isReply: false },
-});
+// threadSchema.pre(/^find/, function (next) {
+//   this.populate({ path: 'initialPost' });
+//   next();
+// });
+
+threadSchema.methods.displayPosts = async function () {
+  await this.populate({ path: 'initialPost' });
+};
 
 const Thread = mongoose.model('Thread', threadSchema);
 

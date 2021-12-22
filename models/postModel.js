@@ -40,10 +40,12 @@ const postSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
-    isReply: {
-      type: Boolean,
-      default: false,
-    },
+    children: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Post',
+      },
+    ],
     parentPost: {
       type: mongoose.Schema.ObjectId,
       ref: 'Post',
@@ -66,6 +68,13 @@ const postSchema = new mongoose.Schema(
     toObject: { virtuals: true },
   }
 );
+
+function autoPopulate(next) {
+  this.populate('children');
+  next();
+}
+
+postSchema.pre(/^find/, autoPopulate);
 
 postSchema.virtual('replies', {
   ref: 'Post',

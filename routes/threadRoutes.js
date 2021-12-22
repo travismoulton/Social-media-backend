@@ -8,6 +8,11 @@ const router = express.Router();
 
 router.route('/').post(protect, threadContoller.createThread);
 
-router.route('/:id').get(protect, threadContoller.getThread);
+router
+  .route('/:id')
+  .get(protect, threadContoller.getThread)
+  // This needs to be changed. Just doing a quick route for now to test
+  // reply chaining functionality
+  .patch(protect, threadContoller.editThread);
 
 module.exports = router;
