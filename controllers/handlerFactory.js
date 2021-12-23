@@ -37,6 +37,7 @@ exports.getOne = (Model, popOptions, queryOptions) =>
 
 exports.updateOne = (Model, fields) =>
   catchAsync(async (req, res, next) => {
+    // Extract modelName
     const { modelName } = Model.collection;
 
     function extractUpdateFields() {
@@ -53,25 +54,20 @@ exports.updateOne = (Model, fields) =>
       });
 
       // Only return excluded fields if there are any fields in the array
-      return excludedFields.length
-        ? { excludedFields, fieldsToUpdate }
-        : { fieldsToUpdate };
+      return { excludedFields, fieldsToUpdate };
     }
 
-    // Only run the extract fields function if an array of accepted fields is passed in
-    const { fieldsToUpdate, excludedFields } = fields && extractUpdateFields();
+    const { fieldsToUpdate, excludedFields } = extractUpdateFields();
 
     // Create a message to tell the api user that certain fields can't be updated
-    // by this route
+    // by this route only if there were fields excluded from the request
     const excludedFieldsMessage =
-      excludedFields &&
+      excludedFields.length > 0 &&
       `The following fields could not be updated by this route: ${excludedFields.join(
         ', '
       )}`;
 
-    const updateObj = fieldsToUpdate || { ...req.body };
-
-    const doc = await Model.findByIdAndUpdate(req.params.id, updateObj, {
+    const doc = await Model.findByIdAndUpdate(req.params.id, fieldsToUpdate, {
       new: true,
       runValidators: true,
     });
