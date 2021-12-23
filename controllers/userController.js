@@ -14,6 +14,4 @@ const factory = require('./handlerFactory');
 //   });
 // });
 
-exports.getUser = factory.getOne(User, 'user', {
-  path: 'posts createdThreads',
-});
+exports.getUser = factory.getOne(User, { path: 'posts createdThreads' });
