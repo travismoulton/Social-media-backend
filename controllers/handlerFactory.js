@@ -13,11 +13,12 @@ exports.createOne = (Model, modelName) =>
 
 exports.getOne = (Model, modelName, popOptions, queryOptions) =>
   catchAsync(async (req, res, next) => {
+    const { id } = req.params;
+
+    // If populate options are passed in, add them to the query, otherwise do not
     const query = popOptions
-      ? Model.findById(req.params.id, null, { ...queryOptions }).populate(
-          popOptions
-        )
-      : Model.findById(req.params.id, null, { ...queryOptions });
+      ? Model.findById(id, null, { ...queryOptions }).populate(popOptions)
+      : Model.findById(id, null, { ...queryOptions });
 
     const doc = await query;
 
@@ -36,15 +37,35 @@ exports.updateOne = (Model, modelName, fields) =>
   catchAsync(async (req, res, next) => {
     function extractUpdateFields() {
       const fieldsToUpdate = { ...req.body };
+      const excludedFields = [];
 
       Object.keys(fieldsToUpdate).forEach((key) => {
-        if (!fields.includes(key)) delete fieldsToUpdate[key];
+        // Remove any field passed by the request that is not included in the list
+        // passed by the getter function
+        if (!fields.includes(key)) {
+          delete fieldsToUpdate[key];
+          excludedFields.push(key);
+        }
       });
 
-      return fieldsToUpdate;
+      // Only return excluded fields if there are any fields in the array
+      return excludedFields.length
+        ? { excludedFields, fieldsToUpdate }
+        : { fieldsToUpdate };
     }
 
-    const updateObj = fields ? extractUpdateFields() : { ...req.body };
+    // Only run the extract fields function if an array of accepted fields is passed in
+    const { fieldsToUpdate, excludedFields } = fields && extractUpdateFields();
+
+    // Create a message to tell the api user that certain fields can't be updated
+    // by this route
+    const excludedFieldsMessage =
+      excludedFields &&
+      `The following fields could not be updated by this route: ${excludedFields.join(
+        ', '
+      )}`;
+
+    const updateObj = fieldsToUpdate || { ...req.body };
 
     const doc = await Model.findByIdAndUpdate(req.params.id, updateObj, {
       new: true,
@@ -61,6 +82,7 @@ exports.updateOne = (Model, modelName, fields) =>
 
     res.status(200).json({
       status: 'success',
+      excludedFieldsMessage,
       data: { [modelName]: doc },
     });
   });

@@ -24,3 +24,4 @@ exports.createPost = catchAsync(async (req, res, next) => {
 });
 
 exports.getPost = factory.getOne(Post, 'post');
+exports.editPostContent = factory.updateOne(Post, 'post', ['content']);

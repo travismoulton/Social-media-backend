@@ -95,6 +95,16 @@ postSchema.pre(/^find/, function (next) {
   next();
 });
 
+// Run when post content has been edited
+postSchema.pre('save', async function (next) {
+  if (!this.isNew && this.isModified('content')) {
+    this.hasBeenEdited = true;
+    this.lastEditedAt = Date.now();
+  }
+
+  return next();
+});
+
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;
