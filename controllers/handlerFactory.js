@@ -1,8 +1,9 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-exports.createOne = (Model, modelName) =>
+exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    const { modelName } = Model.collection;
     const doc = await Model.create(req.body);
 
     res.status(201).json({
@@ -11,9 +12,10 @@ exports.createOne = (Model, modelName) =>
     });
   });
 
-exports.getOne = (Model, modelName, popOptions, queryOptions) =>
+exports.getOne = (Model, popOptions, queryOptions) =>
   catchAsync(async (req, res, next) => {
     const { id } = req.params;
+    const { modelName } = Model.collection;
 
     // If populate options are passed in, add them to the query, otherwise do not
     const query = popOptions
@@ -33,8 +35,10 @@ exports.getOne = (Model, modelName, popOptions, queryOptions) =>
     });
   });
 
-exports.updateOne = (Model, modelName, fields) =>
+exports.updateOne = (Model, fields) =>
   catchAsync(async (req, res, next) => {
+    const { modelName } = Model.collection;
+
     function extractUpdateFields() {
       const fieldsToUpdate = { ...req.body };
       const excludedFields = [];

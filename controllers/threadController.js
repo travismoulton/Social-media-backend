@@ -15,7 +15,7 @@ exports.createThread = catchAsync(async (req, res, next) => {
 
 // exports.getThread = factory.getOne(Thread, 'thread');
 
-exports.editThread = factory.updateOne(Thread, 'thread');
+exports.editThread = factory.updateOne(Thread);
 
 exports.getThread = catchAsync(async (req, res, next) => {
   const thread = await Thread.findById(req.params.id);
@@ -27,5 +27,7 @@ exports.getThread = catchAsync(async (req, res, next) => {
     shouldFetchReplies: true,
   });
 
-  res.status(200).json({ status: 'success', data: { thread, initialPost } });
+  res
+    .status(200)
+    .json({ status: 'success', data: { thread, posts: initialPost } });
 });
