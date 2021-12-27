@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const cors = require('cors');
 // const hpp = require('hpp');
 
 const userRouter = require('./routes/userRoutes');
@@ -13,6 +14,8 @@ const postRouter = require('./routes/postRoutes');
 
 // INIT the app
 const app = express();
+
+app.use(cors());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
