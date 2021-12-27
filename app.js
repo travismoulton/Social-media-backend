@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 // const hpp = require('hpp');
 
 const userRouter = require('./routes/userRoutes');
@@ -15,7 +16,16 @@ const postRouter = require('./routes/postRoutes');
 // INIT the app
 const app = express();
 
-app.use(cors());
+// cors
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+    exposedHeaders: ['set-cookie'],
+  })
+);
+
+app.use(cookieParser());
 
 // Development logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));

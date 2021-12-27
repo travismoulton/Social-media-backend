@@ -103,6 +103,9 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
+  //**
+  console.log('protect', currentUser);
+
   // 4) Check if user changed password after the token was issued
   // decoded.iat is the timestamp that the token was issued at iat = issued at
   if (currentUser.changedPasswordAfter(decoded.iat))
