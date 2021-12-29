@@ -43,8 +43,8 @@ app.use(xss());
 // **IMPORTANT** //
 app.use(express.json());
 
-app.use('/user', userRouter);
-app.use('/group', groupRouter);
+app.use('/users', userRouter);
+app.use('/groups', groupRouter);
 app.use('/membership', membershipRouter);
 app.use('/threads', threadRouter);
 app.use('/posts', postRouter);
