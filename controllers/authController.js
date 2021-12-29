@@ -19,7 +19,7 @@ const createAndSendToken = (user, statusCode, req, res) => {
   res.cookie('jwt', token, {
     expires: new Date(Date.now() + JWT_EXPIRES_IN * 24 * 60 * 60 * 1000),
     httpOnly: true,
-    // secure: req.secure || req.headers['x-forwarded-proto'] === 'https'
+    secure: true,
   });
 
   // remove password from output
@@ -64,6 +64,7 @@ exports.logout = (req, res) => {
   res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
+    secure: true,
   });
 
   res.status(200).json({ status: 'success' });
@@ -102,9 +103,6 @@ exports.protect = catchAsync(async (req, res, next) => {
       )
     );
   }
-
-  //**
-  console.log('protect', currentUser);
 
   // 4) Check if user changed password after the token was issued
   // decoded.iat is the timestamp that the token was issued at iat = issued at

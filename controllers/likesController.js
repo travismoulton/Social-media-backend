@@ -22,8 +22,6 @@ exports.addLike = catchAsync(async (req, res, next) => {
   const postId = req.params.id;
   const userId = req.user._id;
 
-  console.log('userID', userId);
-
   if (!(await Post.findById(postId)))
     return next(new AppError('No post with that Id exists', 404));
 
