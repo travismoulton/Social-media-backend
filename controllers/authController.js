@@ -123,7 +123,7 @@ exports.checkIfUserIsLoggedIn = catchAsync(async (req, res, next) => {
   const token = req.cookies && req.cookies.jwt;
 
   const noUserResponse = () =>
-    res.status(404).json({ status: 'No user found' });
+    res.status(204).json({ status: 'No user found' });
 
   // If the page is refreshed immediatley after a user is logged out there will
   // still be a token, but it is in valid (loggedout)
