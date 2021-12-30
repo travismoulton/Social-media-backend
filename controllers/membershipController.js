@@ -38,3 +38,19 @@ exports.removeMembership = catchAsync(async (req, res, next) => {
     data: { user },
   });
 });
+
+exports.getUserGroups = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user);
+
+  const groups = await Group.find({
+    _id: { $in: user.groupMemberships },
+  });
+
+  if (!groups)
+    res.status(204).json({
+      status: 'success',
+      data: { message: 'This user does not belong to any groups' },
+    });
+  // Should this be an app error?
+  else res.status(200).json({ status: 'success', data: groups });
+});

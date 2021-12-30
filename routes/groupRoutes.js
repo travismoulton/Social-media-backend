@@ -1,8 +1,6 @@
 const express = require('express');
 const groupController = require('../controllers/groupController');
-const authController = require('../controllers/authController');
-
-const { protect } = authController;
+const { protect } = require('../controllers/authController');
 
 const router = express.Router();
 
