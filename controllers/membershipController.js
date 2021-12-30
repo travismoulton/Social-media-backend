@@ -42,9 +42,7 @@ exports.removeMembership = catchAsync(async (req, res, next) => {
 exports.getUserGroups = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user);
 
-  const groups = await Group.find({
-    _id: { $in: user.groupMemberships },
-  });
+  const groups = await Group.find({ _id: { $in: user.groupMemberships } });
 
   if (!groups)
     res.status(204).json({
