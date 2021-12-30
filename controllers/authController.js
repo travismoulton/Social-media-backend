@@ -115,30 +115,34 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = currentUser;
-  res.locals.user = currentUser;
+
   next();
 });
 
-// TODO: This needs reworking
 exports.checkIfUserIsLoggedIn = catchAsync(async (req, res, next) => {
   const token = req.cookies && req.cookies.jwt;
 
-  if (token) {
+  const noUserResponse = () =>
+    res.status(404).json({ status: 'No user found' });
+
+  // If the page is refreshed immediatley after a user is logged out there will
+  // still be a token, but it is in valid (loggedout)
+  if (token && token !== 'loggedout') {
     // Verify the token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
     // Check if the user still exists
     const currentUser = await User.findById(decoded.id);
-    if (!currentUser) return next();
+    if (!currentUser) noUserResponse();
 
     // Check if user has changed password since this token was issued
-    if (currentUser.changedPasswordAfter(decoded.iat)) return next();
+    if (currentUser.changedPasswordAfter(decoded.iat)) noUserResponse();
 
     // All checks passed
-    res.locals.user = currentUser;
+    res.status(200).json({ status: 'success', data: { user: currentUser } });
+  } else {
+    noUserResponse();
   }
-
-  return next();
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
