@@ -56,7 +56,11 @@ exports.login = catchAsync(async (req, res, next) => {
     user && (await user.correctPassword(password, user.password));
 
   if (!user || !passwordIsCorrect)
-    return next(new AppError('Incorrect email or password', 401));
+    // return next(new AppError('Incorrect email or password', 401));
+    return res.status(201).json({
+      status: 'fail',
+      data: { message: 'Incorrect email or password' },
+    });
 
   // 3: If everything is ok send the token to the client
   createAndSendToken(user, 200, req, res);
@@ -86,6 +90,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     : tokenIsInCookie
     ? req.cookies.jwt
     : null;
+
+  console.log(token);
 
   if (!token)
     return next(
