@@ -36,6 +36,11 @@ const createAndSendToken = (user, statusCode, req, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body;
 
+  const existingUser = await User.find({ email: { $eq: email } });
+
+  if (existingUser)
+    return sendErrorJson(res, 'That email is already taken', 401);
+
   const newUser = await User.create({ name, email, password });
 
   createAndSendToken(newUser, 201, req, res);
