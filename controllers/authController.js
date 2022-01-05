@@ -36,9 +36,11 @@ const createAndSendToken = (user, statusCode, req, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body;
 
+  // This will return an empty array if there is no user
   const existingUser = await User.find({ email: { $eq: email } });
 
-  if (existingUser)
+  // Have to check for length because find returns an empty array if no user is present
+  if (existingUser.length)
     return sendErrorJson(res, 'That email is already taken', 401);
 
   if (password.length < 8)
