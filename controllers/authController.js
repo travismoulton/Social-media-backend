@@ -41,6 +41,9 @@ exports.signup = catchAsync(async (req, res, next) => {
   if (existingUser)
     return sendErrorJson(res, 'That email is already taken', 401);
 
+  if (password.length < 8)
+    return sendErrorJson(res, 'Password must be at least 8 characters', 400);
+
   const newUser = await User.create({ name, email, password });
 
   createAndSendToken(newUser, 201, req, res);
