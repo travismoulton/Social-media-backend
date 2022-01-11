@@ -5,6 +5,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const csurf = require('csurf');
 // const hpp = require('hpp');
 
 const userRouter = require('./routes/userRoutes');
@@ -26,6 +27,10 @@ app.use(
 );
 
 app.use(cookieParser());
+
+//CSRF PROTECTION
+const csrfProtection = csurf({ cookie: true });
+app.use(csrfProtection);
 
 // Development logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));

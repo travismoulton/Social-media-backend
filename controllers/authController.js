@@ -91,6 +91,8 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   const tokenIsInCookie = req.cookies && !!req.cookies.jwt;
 
+  console.log(req.cookies);
+
   // eslint-disable-next-line no-nested-ternary
   const token = isBearerToken
     ? req.headers.authorization.split(' ')[1]
