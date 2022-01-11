@@ -26,6 +26,8 @@ const createAndSendToken = (user, statusCode, req, res) => {
   // remove password from output
   user.password = null;
 
+  console.log(token);
+
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -53,8 +55,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
-
-  console.log(email, password);
 
   // 1: Check if email and password exist
   if (!email || !password)
@@ -97,8 +97,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     : tokenIsInCookie
     ? req.cookies.jwt
     : null;
-
-  console.log(token);
 
   if (!token)
     return next(
