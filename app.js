@@ -5,7 +5,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const csurf = require('csurf');
+
 // const hpp = require('hpp');
 
 const userRouter = require('./routes/userRoutes');
@@ -13,9 +13,12 @@ const groupRouter = require('./routes/groupRoutes');
 const membershipRouter = require('./routes/membershipRoute');
 const threadRouter = require('./routes/threadRoutes');
 const postRouter = require('./routes/postRoutes');
+const authController = require('./controllers/authController');
 
 // INIT the app
 const app = express();
+
+const appRouter = express.Router();
 
 // cors
 app.use(
@@ -27,10 +30,6 @@ app.use(
 );
 
 app.use(cookieParser());
-
-//CSRF PROTECTION
-const csrfProtection = csurf({ cookie: true });
-app.use(csrfProtection);
 
 // Development logging
 if (process.env.NODE_ENV === 'development') app.use(morgan('dev'));
@@ -53,5 +52,6 @@ app.use('/groups', groupRouter);
 app.use('/membership', membershipRouter);
 app.use('/threads', threadRouter);
 app.use('/posts', postRouter);
+appRouter.get('/csrf-token', authController.sendCsrfToken);
 
 module.exports = app;
