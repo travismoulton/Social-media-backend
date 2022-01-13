@@ -19,7 +19,7 @@ exports.createGroup = catchAsync(async (req, res, next) => {
 
   res.status(201).json({
     status: 'sucess',
-    data: { group },
+    data: group,
   });
 });
 

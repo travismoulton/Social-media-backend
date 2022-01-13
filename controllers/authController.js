@@ -26,8 +26,6 @@ const createAndSendToken = (user, statusCode, req, res) => {
   // remove password from output
   user.password = null;
 
-  console.log(token);
-
   res.status(statusCode).json({
     status: 'success',
     token,
@@ -90,8 +88,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization && req.headers.authorization.startsWith('Bearer');
 
   const tokenIsInCookie = req.cookies && !!req.cookies.jwt;
-
-  console.log(req.cookies);
 
   // eslint-disable-next-line no-nested-ternary
   const token = isBearerToken
