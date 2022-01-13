@@ -13,12 +13,9 @@ const groupRouter = require('./routes/groupRoutes');
 const membershipRouter = require('./routes/membershipRoute');
 const threadRouter = require('./routes/threadRoutes');
 const postRouter = require('./routes/postRoutes');
-const authController = require('./controllers/authController');
 
 // INIT the app
 const app = express();
-
-const appRouter = express.Router();
 
 // cors
 app.use(
@@ -52,6 +49,5 @@ app.use('/groups', groupRouter);
 app.use('/membership', membershipRouter);
 app.use('/threads', threadRouter);
 app.use('/posts', postRouter);
-appRouter.get('/csrf-token', authController.sendCsrfToken);
 
 module.exports = app;
