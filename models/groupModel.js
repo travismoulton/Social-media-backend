@@ -39,10 +39,11 @@ groupSchema.virtual('threads', {
 
 // This may not be necesarry. Does it make more sense to query the
 // user model for memberships with this groupId?
-groupSchema.virtual('members', {
+groupSchema.virtual('memberCount', {
   ref: 'User',
   foreignField: 'groupMemberships',
   localField: '_id',
+  count: true,
 });
 
 const Group = mongoose.model('Group', groupSchema);
