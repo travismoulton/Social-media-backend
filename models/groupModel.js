@@ -20,6 +20,10 @@ const groupSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
+    description: {
+      type: String,
+      maxlength: 128,
+    },
   },
   {
     toJSON: { virtuals: true },

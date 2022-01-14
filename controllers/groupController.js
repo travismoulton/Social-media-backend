@@ -18,7 +18,7 @@ exports.createGroup = catchAsync(async (req, res, next) => {
   foundingUser.addGroupMembership(group._id);
 
   res.status(201).json({
-    status: 'sucess',
+    status: 'success',
     data: group,
   });
 });
