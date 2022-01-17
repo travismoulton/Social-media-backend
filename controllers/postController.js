@@ -24,7 +24,7 @@ exports.createPost = catchAsync(async (req, res, next) => {
 
   res.status(201).json({
     status: 'success',
-    data: { post },
+    data: post,
   });
 });
 
