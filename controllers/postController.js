@@ -28,5 +28,8 @@ exports.createPost = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getPost = factory.getOne(Post);
+exports.getPost = factory.getOne(Post, {
+  path: 'replies',
+  options: { shouldFetchReplies: true, sort: [{ replyChainScore: 'desc' }] },
+});
 exports.editPostContent = factory.updateOne(Post, ['content']);

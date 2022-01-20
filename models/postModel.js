@@ -105,6 +105,11 @@ postSchema.pre('save', async function (next) {
   return next();
 });
 
+postSchema.pre(/^find/, function (next) {
+  this.populate({ path: 'author' });
+  next();
+});
+
 const Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;
