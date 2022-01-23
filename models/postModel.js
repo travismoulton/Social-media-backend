@@ -89,9 +89,10 @@ postSchema.pre(/^find/, function (next) {
   if (!shouldFetchReplies) return next();
 
   this.populate({
-    path: 'replies',
+    path: 'replies numAggregateReplies',
     options: { shouldFetchReplies: true, sort: [{ replyChainScore: 'desc' }] },
   });
+
   next();
 });
 
@@ -103,6 +104,13 @@ postSchema.pre('save', async function (next) {
   }
 
   return next();
+});
+
+postSchema.virtual('numAggregateReplies', {
+  ref: 'Post',
+  foreignField: 'ancestors',
+  localField: '_id',
+  count: true,
 });
 
 postSchema.pre(/^find/, function (next) {

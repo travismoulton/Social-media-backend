@@ -10,7 +10,7 @@ const groupSchema = new mongoose.Schema(
     // members -> TBD
     createdAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
     },
     avatar: {
       type: String,
