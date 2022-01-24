@@ -31,7 +31,7 @@ exports.getOne = (Model, popOptions, queryOptions) =>
 
     res.status(200).json({
       status: 'success',
-      data: { [modelName]: doc },
+      data: { [modelName.toLowerCase()]: doc },
     });
   });
 
@@ -83,6 +83,6 @@ exports.updateOne = (Model, fields) =>
     res.status(200).json({
       status: 'success',
       excludedFieldsMessage,
-      data: { [modelName]: doc },
+      data: { [modelName.toLowerCase()]: doc },
     });
   });

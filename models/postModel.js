@@ -39,6 +39,7 @@ const postSchema = new mongoose.Schema(
     likeScore: {
       type: Number,
       default: 0,
+      min: -Infinity,
     },
     replyChainScore: {
       type: Number,
