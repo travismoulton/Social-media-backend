@@ -35,7 +35,7 @@ exports.addLike = catchAsync(async (req, res, next) => {
       $inc: {
         likeCount: 1,
         dislikeCount: -1,
-        likeScore: 1,
+        likeScore: 2,
         replyChainScore: 1,
       },
       $push: { usersLiked: userId },
@@ -63,7 +63,7 @@ exports.addLike = catchAsync(async (req, res, next) => {
   const post = neutralPost || dislikedPost;
   await updateReplyChainScore(post, 1);
 
-  const data = neutralPost ? { neutralPost } : { dislikedPost };
+  const data = neutralPost ? { post: neutralPost } : { post: dislikedPost };
   res.status(200).json({ status: 'Success', data });
 });
 
@@ -85,7 +85,7 @@ exports.addDislike = catchAsync(async (req, res, next) => {
       $inc: {
         likeCount: -1,
         dislikeCount: 1,
-        likeScore: -1,
+        likeScore: -2,
         replyChainScore: -1,
       },
       $pull: { usersLiked: userId },
@@ -113,7 +113,7 @@ exports.addDislike = catchAsync(async (req, res, next) => {
   const post = neutralPost || likedPost;
   await updateReplyChainScore(post, -1);
 
-  const data = neutralPost ? { neutralPost } : { likedPost };
+  const data = neutralPost ? { post: neutralPost } : { post: likedPost };
   res.status(200).json({ status: 'success', data });
 });
 
