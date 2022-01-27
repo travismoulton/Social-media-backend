@@ -3,6 +3,7 @@ const Thread = require('../models/threadModel');
 const Post = require('../models/postModel');
 const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
+const APIFeatures = require('../utils/apiFeatures');
 const sendErrorJson = require('../utils/sendErrorJson');
 
 exports.createThread = catchAsync(async (req, res, next) => {
@@ -47,6 +48,16 @@ exports.createThreadWithIntialPost = catchAsync(async (req, res, next) => {
 // exports.getThread = factory.getOne(Thread, 'thread');
 
 exports.editThread = factory.updateOne(Thread, ['initialPost']);
+
+exports.getAllThreads = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(Thread.find({}), req.query)
+    .sort()
+    .paginate();
+
+  const threads = await features.query;
+
+  res.status(200).json({ status: 'success', data: threads });
+});
 
 exports.getThread = catchAsync(async (req, res, next) => {
   const thread = await Thread.findById(req.params.id);

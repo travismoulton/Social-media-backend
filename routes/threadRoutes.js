@@ -6,7 +6,10 @@ const { protect } = authController;
 
 const router = express.Router();
 
-router.route('/').post(protect, threadContoller.createThreadWithIntialPost);
+router
+  .route('/')
+  .post(protect, threadContoller.createThreadWithIntialPost)
+  .get(threadContoller.getAllThreads);
 
 router
   .route('/:id')
