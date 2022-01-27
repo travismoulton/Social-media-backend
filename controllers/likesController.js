@@ -1,4 +1,5 @@
 const Post = require('../models/postModel');
+const Thread = require('../models/threadModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -15,6 +16,12 @@ async function updateReplyChainScore(post, incrementVal) {
   });
 
   await Promise.all(ancestorsToSave);
+}
+
+async function updateThreadScore(post, incrementVal) {
+  const thread = await Thread.findById(post.thread);
+  thread.likeScore += incrementVal;
+  await thread.save();
 }
 
 //
@@ -62,6 +69,7 @@ exports.addLike = catchAsync(async (req, res, next) => {
   // Update the all of the post's ancestors to increase their reply chain score
   const post = neutralPost || dislikedPost;
   await updateReplyChainScore(post, 1);
+  await updateThreadScore(post, 1);
 
   const data = neutralPost ? { post: neutralPost } : { post: dislikedPost };
   res.status(200).json({ status: 'Success', data });
@@ -112,6 +120,7 @@ exports.addDislike = catchAsync(async (req, res, next) => {
   // Update the all of the post's ancestors to increase their reply chain score
   const post = neutralPost || likedPost;
   await updateReplyChainScore(post, -1);
+  await updateThreadScore(post, -1);
 
   const data = neutralPost ? { post: neutralPost } : { post: likedPost };
   res.status(200).json({ status: 'success', data });
@@ -144,6 +153,7 @@ exports.removeLike = catchAsync(async (req, res, next) => {
 
   // Update the all of the post's ancestors to increase their reply chain score
   await updateReplyChainScore(post, -1);
+  await updateThreadScore(post, -1);
 
   res.status(200).json({ status: 'success', data: { post } });
 });
@@ -175,6 +185,7 @@ exports.removeDislike = catchAsync(async (req, res, next) => {
 
   // Update the all of the post's ancestors to increase their reply chain score
   await updateReplyChainScore(post, 1);
+  await updateThreadScore(post, 1);
 
   res.status(200).json({ status: 'success', data: { post } });
 });

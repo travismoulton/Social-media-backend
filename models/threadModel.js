@@ -18,6 +18,12 @@ const threadSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'Post',
     },
+    likeScore: {
+      type: Number,
+      default: 0,
+      min: -Infinity,
+      max: Infinity,
+    },
     // Post count -> Siome sort of aggregation
     // Like / Dislike score -> some sort of aggergation
     // Contributors -> Not sure if needed yet.

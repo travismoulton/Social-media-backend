@@ -44,6 +44,8 @@ const postSchema = new mongoose.Schema(
     replyChainScore: {
       type: Number,
       default: 0,
+      min: -Infinity,
+      max: Infinity,
     },
     createdAt: {
       type: Date,
