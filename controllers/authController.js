@@ -16,10 +16,9 @@ const signToken = (id) =>
 
 const createAndSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
-
+  const ninetyDays = 90 * 24 * 60 * 60 * 1000;
   res.cookie('jwt', token, {
-    // Token expires in 90 days
-    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + ninetyDays),
     httpOnly: true,
     secure: true,
   });
