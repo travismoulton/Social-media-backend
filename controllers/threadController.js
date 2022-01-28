@@ -50,7 +50,10 @@ exports.createThreadWithIntialPost = catchAsync(async (req, res, next) => {
 exports.editThread = factory.updateOne(Thread, ['initialPost']);
 
 exports.getAllThreads = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Thread.find({}), req.query)
+  const features = new APIFeatures(
+    Thread.find({}).populate('initialPost group'),
+    req.query
+  )
     .sort()
     .paginate();
 
