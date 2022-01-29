@@ -15,7 +15,7 @@ router.route('/byGroup/:groupId').get(threadContoller.getAllThreadsFromGroup);
 
 router
   .route('/:id')
-  .get(protect, threadContoller.getThread)
+  .get(threadContoller.getThread)
   // This needs to be changed. Just doing a quick route for now to test
   // reply chaining functionality
   .patch(protect, threadContoller.editThread);
