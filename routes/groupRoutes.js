@@ -4,7 +4,10 @@ const { protect } = require('../controllers/authController');
 
 const router = express.Router();
 
-router.route('/').post(protect, groupController.createGroup);
+router
+  .route('/')
+  .post(protect, groupController.createGroup)
+  .get(groupController.getAllGroups);
 
 router
   .route('/:id')
