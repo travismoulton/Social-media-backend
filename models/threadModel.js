@@ -34,6 +34,13 @@ const threadSchema = new mongoose.Schema(
   }
 );
 
+threadSchema.virtual('numComments', {
+  ref: 'Post',
+  foreignField: 'thread',
+  localField: '_id',
+  count: true,
+});
+
 // Not sure whether to put this in. It will query the entire reply chain every time, which
 // isn't ideal.
 // threadSchema.pre(/^find/, function (next) {

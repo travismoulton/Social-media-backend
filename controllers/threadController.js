@@ -51,7 +51,7 @@ exports.editThread = factory.updateOne(Thread, ['initialPost']);
 
 exports.getAllThreads = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(
-    Thread.find({}).populate('initialPost group'),
+    Thread.find({}).populate('initialPost group numComments'),
     req.query
   )
     .sort()
