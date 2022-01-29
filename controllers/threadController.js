@@ -62,6 +62,22 @@ exports.getAllThreads = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 'success', data: threads });
 });
 
+exports.getAllThreadsFromGroup = catchAsync(async (req, res, next) => {
+  const { groupId } = req.params;
+  const features = new APIFeatures(
+    Thread.find({ group: { $eq: groupId } }).populate(
+      'initialPost group numComments'
+    ),
+    req.query
+  )
+    .sort()
+    .paginate();
+
+  const threads = await features.query;
+
+  res.status(200).json({ status: 'success', data: threads });
+});
+
 exports.getThread = catchAsync(async (req, res, next) => {
   const thread = await Thread.findById(req.params.id);
 

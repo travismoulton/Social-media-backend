@@ -11,6 +11,8 @@ router
   .post(protect, threadContoller.createThreadWithIntialPost)
   .get(threadContoller.getAllThreads);
 
+router.route('/byGroup/:groupId').get(threadContoller.getAllThreadsFromGroup);
+
 router
   .route('/:id')
   .get(protect, threadContoller.getThread)
