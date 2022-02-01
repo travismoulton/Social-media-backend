@@ -49,17 +49,46 @@ exports.createThreadWithIntialPost = catchAsync(async (req, res, next) => {
 
 exports.editThread = factory.updateOne(Thread, ['initialPost']);
 
+function getNextUrl(req, count) {
+  const { limit, page } = req.query;
+  const { originalUrl } = req;
+
+  const pageNumber = +page;
+  const totalPages = Math.ceil(count / limit);
+  const nextPage = pageNumber + 1;
+
+  const [baseUrl, reqParams] = originalUrl.split('?');
+
+  // The first index of the reqParams is the page param, which we don't need
+  const [, ...otherParams] = reqParams.split('&');
+
+  const nextUrl = `${baseUrl}?page=${nextPage}&${otherParams.join('&')}`;
+
+  // If the next page is greater than total pages there are no results so we return null,
+  // otherwise we return the nextUrl string
+  return nextPage <= totalPages ? nextUrl : null;
+}
+
 exports.getAllThreads = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(
+  const countQuery = Thread.count({});
+
+  const threadsQuery = new APIFeatures(
     Thread.find({}).populate('initialPost group numComments'),
     req.query
   )
     .sort()
     .paginate();
 
-  const threads = await features.query;
+  const queryData = await Promise.all([countQuery, threadsQuery.query]);
+  const [count, threads] = queryData;
 
-  res.status(200).json({ status: 'success', data: threads });
+  const nextUrl = getNextUrl(req, count);
+  console.log({ nextUrl });
+
+  res.status(200).json({
+    status: 'success',
+    data: { threads, next: nextUrl },
+  });
 });
 
 exports.getAllThreadsFromGroup = catchAsync(async (req, res, next) => {
