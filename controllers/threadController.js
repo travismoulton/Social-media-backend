@@ -64,6 +64,17 @@ function getNextUrl(req, count) {
 
   const nextUrl = `${baseUrl}?page=${nextPage}&${otherParams.join('&')}`;
 
+  // console.log({
+  //   limit,
+  //   pageNumber,
+  //   totalPages,
+  //   nextPage,
+  //   baseUrl,
+  //   reqParams,
+  //   otherParams,
+  //   nextUrl,
+  // });
+
   // If the next page is greater than total pages there are no results so we return null,
   // otherwise we return the nextUrl string
   return nextPage <= totalPages ? nextUrl : null;
@@ -79,11 +90,9 @@ exports.getAllThreads = catchAsync(async (req, res, next) => {
     .sort()
     .paginate();
 
-  const queryData = await Promise.all([countQuery, threadsQuery.query]);
-  const [count, threads] = queryData;
+  const [count, threads] = await Promise.all([countQuery, threadsQuery.query]);
 
   const nextUrl = getNextUrl(req, count);
-  console.log({ nextUrl });
 
   res.status(200).json({
     status: 'success',
@@ -93,7 +102,10 @@ exports.getAllThreads = catchAsync(async (req, res, next) => {
 
 exports.getAllThreadsFromGroup = catchAsync(async (req, res, next) => {
   const { groupId } = req.params;
-  const features = new APIFeatures(
+
+  const countQuery = Thread.count({ group: { $eq: groupId } });
+
+  const threadsQuery = new APIFeatures(
     Thread.find({ group: { $eq: groupId } }).populate(
       'initialPost group numComments'
     ),
@@ -102,9 +114,10 @@ exports.getAllThreadsFromGroup = catchAsync(async (req, res, next) => {
     .sort()
     .paginate();
 
-  const threads = await features.query;
+  const [count, threads] = await Promise.all([countQuery, threadsQuery.query]);
+  const nextUrl = getNextUrl(req, count);
 
-  res.status(200).json({ status: 'success', data: threads });
+  res.status(200).json({ status: 'success', data: { threads, next: nextUrl } });
 });
 
 exports.getThread = catchAsync(async (req, res, next) => {
