@@ -11,7 +11,7 @@ router
 
 router
   .route('/:id')
-  .get(protect, groupController.getGroup)
+  .get(groupController.getGroup)
   .patch(protect, groupController.updateGroup);
 
 module.exports = router;
