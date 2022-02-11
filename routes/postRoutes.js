@@ -10,7 +10,8 @@ router.route('/').post(protect, postController.createPost);
 router
   .route('/:id')
   .get(postController.getPost)
-  .patch(protect, postController.editPostContent);
+  .patch(protect, postController.editPost)
+  .delete(protect, postController.deletePost);
 
 router.route('/:id/like/add').patch(protect, likesController.addLike);
 router.route('/:id/dislike/add').patch(protect, likesController.addDislike);
