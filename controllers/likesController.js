@@ -68,8 +68,11 @@ exports.addLike = catchAsync(async (req, res, next) => {
 
   // Update the all of the post's ancestors to increase their reply chain score
   const post = neutralPost || dislikedPost;
-  await updateReplyChainScore(post, 1);
-  await updateThreadScore(post, 1);
+  // If the post was neutral, it should go up by 1, but if it was disliked it should go
+  // up by 2
+  const incrementVal = neutralPost ? 1 : 2;
+  await updateReplyChainScore(post, incrementVal);
+  await updateThreadScore(post, incrementVal);
 
   const data = neutralPost ? { post: neutralPost } : { post: dislikedPost };
   res.status(200).json({ status: 'Success', data });
@@ -119,8 +122,11 @@ exports.addDislike = catchAsync(async (req, res, next) => {
 
   // Update the all of the post's ancestors to increase their reply chain score
   const post = neutralPost || likedPost;
-  await updateReplyChainScore(post, -1);
-  await updateThreadScore(post, -1);
+  // If the post was neutral, it should go up by 1, but if it was disliked it should go
+  // up by 2
+  const incrementVal = neutralPost ? -1 : -2;
+  await updateReplyChainScore(post, incrementVal);
+  await updateThreadScore(post, incrementVal);
 
   const data = neutralPost ? { post: neutralPost } : { post: likedPost };
   res.status(200).json({ status: 'success', data });
