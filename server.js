@@ -36,7 +36,7 @@ const serverOptions = {
 
 const server = https.createServer(serverOptions, app);
 server.listen(port, () => {
-  console.log(`App running on prt ${port}...`);
+  console.log(`App running on port ${port}...`);
 });
 
 process.on('unhandledRejection', (err) => {
