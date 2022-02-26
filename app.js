@@ -21,7 +21,8 @@ const app = express();
 app.use(
   cors({
     // origin: 'https://localhost:3000',
-    origin: 'https://621a338dad4666ed9e8cc640--social-app-frontend.netlify.app',
+    origin:
+      'https://621a3615af444b0a7a179eda--social-app-frontend.netlify.app/',
     // origin: '*',
     credentials: true,
     exposedHeaders: ['set-cookie'],

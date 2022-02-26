@@ -38,5 +38,6 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.27.1",
     "prettier": "^2.5.1"
-  }
+  },
+  "proxy": "https://social-backend-123.herokuapp.com/"
 }
