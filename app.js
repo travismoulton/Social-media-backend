@@ -57,6 +57,8 @@ app.use((req, res, next) => {
   next();
 });
 
+app.set('trust proxy', 1);
+
 app.use('/users', userRouter);
 app.use('/groups', groupRouter);
 app.use('/membership', membershipRouter);
