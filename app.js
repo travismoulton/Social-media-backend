@@ -51,8 +51,7 @@ app.use((req, res, next) => {
     'GET,PUT,POST,DELETE,UPDATE,OPTIONS'
   );
   res.header(
-    'Access-Control-Allow-Origin',
-    'https://social-app-frontend.netlify.app'
+    'Access-Control-Allow-Origin, https://social-app-frontend.netlify.app'
   );
   res.header(
     'Access-Control-Allow-Headers',
