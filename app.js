@@ -20,9 +20,7 @@ const app = express();
 // cors
 app.use(
   cors({
-    // origin: 'https://localhost:3000',
     origin: 'https://social-app-frontend.netlify.app',
-    // origin: '*',
     credentials: true,
     exposedHeaders: ['set-cookie'],
   })
@@ -45,6 +43,19 @@ app.use(xss());
 // This line allows us to receive json in the request body
 // **IMPORTANT** //
 app.use(express.json());
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header(
+    'Access-Control-Allow-Methods',
+    'GET,PUT,POST,DELETE,UPDATE,OPTIONS'
+  );
+  res.header(
+    'Access-Control-Allow-Headers',
+    'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+  );
+  next();
+});
 
 app.use('/users', userRouter);
 app.use('/groups', groupRouter);
