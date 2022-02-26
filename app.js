@@ -23,6 +23,7 @@ app.use(
     origin: 'https://social-app-frontend.netlify.app',
     credentials: true,
     exposedHeaders: ['set-cookie'],
+    sameSite: 'lax',
   })
 );
 
