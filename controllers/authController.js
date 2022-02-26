@@ -20,7 +20,7 @@ const createAndSendToken = (user, statusCode, req, res) => {
   res.cookie('jwt', token, {
     expires: new Date(Date.now() + ninetyDays),
     httpOnly: true,
-    secure: false,
+    secure: true,
     domain: 'social-app-frontend.netlify.app',
     sameSite: 'None',
   });
