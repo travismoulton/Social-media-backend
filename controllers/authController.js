@@ -22,7 +22,7 @@ const createAndSendToken = (user, statusCode, req, res) => {
     httpOnly: true,
     secure: true,
     domain: 'social-app-frontend.netlify.app',
-    sameSite: 'lax',
+    sameSite: 'None',
   });
 
   // remove password from output
