@@ -50,6 +50,11 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   const newUser = await User.create({ name, email, password });
 
+  res.header(
+    'Access-Control-Allow-Origin',
+    'https://social-app-frontend.netlify.app'
+  );
+
   createAndSendToken(newUser, 201, req, res);
 });
 
