@@ -20,7 +20,7 @@ const app = express();
 // cors
 app.use(
   cors({
-    origin: 'netlify.app',
+    origin: 'https://social-app-frontend.netlify.app',
     credentials: true,
     exposedHeaders: ['set-cookie'],
   })
