@@ -53,6 +53,8 @@ function getNextUrl(req, count) {
   const { limit, page } = req.query;
   const { originalUrl } = req;
 
+  console.log({ originalUrl });
+
   const pageNumber = +page;
   const totalPages = Math.ceil(count / limit);
   const nextPage = pageNumber + 1;
@@ -63,17 +65,6 @@ function getNextUrl(req, count) {
   const [, ...otherParams] = reqParams.split('&');
 
   const nextUrl = `${baseUrl}?page=${nextPage}&${otherParams.join('&')}`;
-
-  // console.log({
-  //   limit,
-  //   pageNumber,
-  //   totalPages,
-  //   nextPage,
-  //   baseUrl,
-  //   reqParams,
-  //   otherParams,
-  //   nextUrl,
-  // });
 
   // If the next page is greater than total pages there are no results so we return null,
   // otherwise we return the nextUrl string
