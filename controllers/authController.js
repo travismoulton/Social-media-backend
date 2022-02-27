@@ -20,9 +20,9 @@ const createAndSendToken = (user, statusCode, req, res) => {
   res.cookie('jwt', token, {
     expires: new Date(Date.now() + ninetyDays),
     httpOnly: true,
-    secure: true,
-    domain: '.social-app-frontend.netlify.app',
-    sameSite: 'None',
+    // secure: true,
+    domain: 'social-app-frontend.netlify.app',
+    // sameSite: 'None',
   });
 
   // remove password from output
