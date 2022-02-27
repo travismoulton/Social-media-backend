@@ -49,10 +49,10 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Methods',
     'GET,PUT,POST,DELETE,UPDATE,OPTIONS'
   );
-  res.header(
-    'Access-Control-Allow-Headers',
-    'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
-  );
+  // res.header(
+  //   'Access-Control-Allow-Headers',
+  //   'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept'
+  // );
   next();
 });
 
