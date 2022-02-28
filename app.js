@@ -23,8 +23,8 @@ app.use(
     origin: [
       'https://social-app-frontend.netlify.app',
       'https://localhost:3000',
+      'http://localhost:3000',
     ],
-
     credentials: true,
     exposedHeaders: ['set-cookie'],
   })
