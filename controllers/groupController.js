@@ -28,7 +28,7 @@ exports.getGroup = factory.getOne(Group, { path: 'threads memberCount' });
 exports.updateGroup = factory.updateOne(Group, ['avatar', 'name']);
 
 exports.getAllGroups = catchAsync(async (req, res, next) => {
-  const groups = await Group.find({});
+  const groups = await Group.find({}).populate('memberCount');
 
   res.status(201).json({
     status: 'success',

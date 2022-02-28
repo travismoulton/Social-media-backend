@@ -24,8 +24,7 @@ app.use(
       'https://social-app-frontend.netlify.app',
       'https://localhost:3000',
     ],
-    // origin: 'https://localhost:3000',
-    // origin: 'http://127.0.0.1:5500',
+
     credentials: true,
     exposedHeaders: ['set-cookie'],
   })
