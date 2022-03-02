@@ -22,7 +22,7 @@ app.use(
   cors({
     origin: [
       'https://social-app-frontend.netlify.app',
-      'https://www.threadedchat.com/',
+      'https://threadedchat.com/',
       'https://localhost:3000',
       'http://localhost:3000',
     ],
