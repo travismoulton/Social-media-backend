@@ -23,6 +23,10 @@ app.use(
     origin: [
       'https://social-app-frontend.netlify.app',
       'https://threadedchat.com/',
+      'dns1.p06.nsone.net',
+      'dns2.p06.nsone.net',
+      'dns3.p06.nsone.net',
+      'dns4.p06.nsone.net',
       'https://localhost:3000',
       'http://localhost:3000',
     ],
