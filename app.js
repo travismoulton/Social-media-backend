@@ -27,7 +27,7 @@ app.use(
       'http://localhost:3000',
     ],
     credentials: true,
-    exposedHeaders: ['set-cookie'],
+    exposedHeaders: ['Set-Cookie'],
   })
 );
 
