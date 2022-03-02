@@ -21,9 +21,8 @@ const createAndSendToken = (user, statusCode, req, res) => {
     expires: new Date(Date.now() + ninetyDays),
     httpOnly: true,
     secure: true,
-    domain: 'social-app-frontend.netlify.app',
+    // domain: 'social-app-frontend.netlify.app',
     sameSite: 'None',
-    path: '/login',
   });
 
   // remove password from output
