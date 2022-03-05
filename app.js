@@ -23,7 +23,7 @@ app.use(
     origin: [
       'https://social-app-frontend.netlify.app',
       'https://www.threadedchat.com',
-
+      'https://www.threddit.win',
       'https://localhost:3000',
       'http://localhost:3000',
     ],
