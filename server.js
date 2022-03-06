@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
 // Expirementing with https
-const https = require('https');
-const fs = require('fs');
+// const https = require('https');
+// const fs = require('fs');
 
-process.openStdin('uncaughtException', (err) => {
+process.on('uncaughtException', (err) => {
   console.log('UNCAUGHT EXCEPTION!, Shutting down...');
   console.log(err.name, err.message);
   // On uncaught exceptions we need to terminate immediatley.
